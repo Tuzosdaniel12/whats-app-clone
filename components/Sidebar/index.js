@@ -8,25 +8,42 @@ import SearchIcon from "@material-ui/icons/Search"
 
 import * as EmailValidator from "email-validator"
 
-
+import { auth, db } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 const Sidebar = () => {
+
+    const [user] = useAuthState(auth);
+    const userChatRef = db.collection('chats').where("user", 'array-contains', user.email);
+    const [chatSnapshot] = useCollection(userChatRef)
+
 
     const createChat = () => {
         const input = prompt("please enter an email adress for the use you wish to chat with")
 
         if(!input) return null
 
-        if(EmailValidator.validate(input)){
+        EmailValidator.validate(input)&& !chatAlreadyExist(input) && input !== user.email?
             //we need to chat into the db
-        }
+            db.collection('chats').add({
+                users: [user.email, input]
+            })
+        : alert("Conversation already exists")
+    }
 
+    const chatAlreadyExist = (recipientEmail) => {
+        !!chatSnapshot?.docs.find(
+            chat => chat.data().users.find(
+                user => user === recipientEmail?.length > 0
+            )
+        )
     }
 
 	return (
 		<Container>
 			<Header>
-				<UserAvatar />
+				<UserAvatar onClick={()=> auth.signOut()}/>
 
 				<IconContainer>
 					<IconButton>
@@ -44,7 +61,7 @@ const Sidebar = () => {
                 <SearchInput placeholder="Search in Chats!"/>
             </Search>
 
-            <SidebarButton>
+            <SidebarButton onClick={()=>createChat()}>
                 Start a new chat
             </SidebarButton>
 
