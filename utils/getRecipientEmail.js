@@ -19,5 +19,5 @@ export const getRecipient = (users, user) => {
 
 	const recipient = recipientSnapshot?.docs?.[0]?.data();
 
-    return recipient
+    return { recipient, recipientEmail };
 };

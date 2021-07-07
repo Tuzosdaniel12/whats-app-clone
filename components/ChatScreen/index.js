@@ -4,6 +4,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { auth, db } from "../../firebase";
 import { useEffect, useRef, useState } from "react";
 import { Avatar, IconButton } from "@material-ui/core";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { getRecipient, getRecipientEmail } from "../../utils/getRecipientEmail.js";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
@@ -15,22 +16,22 @@ import firebase from "firebase"
 import TimeAgo from "timeago-react";
 
 
-const ChatScreen = ({chat, messages}) => {
-    const [input, setInput] = useState()
-    const [user] = useAuthState(auth);
-    const router = useRouter();
-    const endOfMessageRef = useRef(null)
-    const [messagesSnapshot] = useCollection(
-        db.collection("chats")
-            .doc(router.query.id)
-            .collection("messages")
-            .orderBy("timestamp", "asc")
-    );
+const ChatScreen = ({ chat, messages, setDisplay }) => {
+	const [input, setInput] = useState();
+	const [user] = useAuthState(auth);
+	const router = useRouter();
+	const endOfMessageRef = useRef(null);
+	const [messagesSnapshot] = useCollection(
+		db
+			.collection("chats")
+			.doc(router.query.id)
+			.collection("messages")
+			.orderBy("timestamp", "asc")
+	);
 
-    const showMessage = () => {
-
-        if(messagesSnapshot){
-            return messagesSnapshot.docs.map((message) => (
+	const showMessage = () => {
+		if (messagesSnapshot) {
+			return messagesSnapshot.docs.map((message) => (
 				<Messages
 					key={message.id}
 					user={message.data().user}
@@ -40,19 +41,19 @@ const ChatScreen = ({chat, messages}) => {
 					}}
 				/>
 			));
-        }else {
-            return JSON.parse(messages).map((message) => (
+		} else {
+			return JSON.parse(messages).map((message) => (
 				<Messages
 					key={message.id}
 					user={message.user}
 					message={message}
 				/>
 			));
-        }
-    }
-    
-    const sendMessage = (e) =>{
-        e.preventDefault();
+		}
+	};
+
+	const sendMessage = (e) => {
+		e.preventDefault();
 
 		db.collection("users").doc(user.uid).set(
 			{
@@ -70,24 +71,23 @@ const ChatScreen = ({chat, messages}) => {
 
 		setInput("");
 
-        ScrollToBottom();
-    }
+		ScrollToBottom();
+	};
 
-    const ScrollToBottom = () => {
+	const ScrollToBottom = () => {
 		endOfMessageRef.current.scrollIntoView({
 			behavior: "smooth",
 			block: "start"
 		});
 	};
 
-    const recipient = getRecipient(chat.users, user);
-    const recipientEmail = getRecipientEmail(chat.users, user);
+	const { recipient, recipientEmail } = getRecipient(chat.users, user);
 
 	return (
 		<Container>
 			<Header>
 				{recipient ? (
-					<Avatar src={recipient?.photoURL} />
+					<Avatar src={recipient?.photoUrl} />
 				) : (
 					<>
 						<Avatar>{recipientEmail[0].toUpperCase()}</Avatar>
@@ -111,20 +111,24 @@ const ChatScreen = ({chat, messages}) => {
 					)}
 				</HeaderInfo>
 				<HeaderIcons>
-					<IconButton>
-						<AttachFileIcon />
-					</IconButton>
+					<Icon onClick={() => setDisplay()} display={false}>
+						<ArrowBackIosIcon />
+					</Icon>
 
-					<IconButton>
+					<Icon display={true}>
+						<AttachFileIcon />
+					</Icon>
+
+					<Icon display={true}>
 						<MoreVertIcon />
-					</IconButton>
+					</Icon>
 				</HeaderIcons>
 			</Header>
 
 			<MessageContainer>
 				{/**/}
 				{showMessage()}
-				<EndOfMessage ref={endOfMessageRef}/>
+				<EndOfMessage ref={endOfMessageRef} />
 			</MessageContainer>
 
 			<InputContainer>
@@ -179,6 +183,7 @@ const HeaderInfo = styled.div`
 `
 
 const HeaderIcons = styled.div`
+display: flex;
 `
 
 const MessageContainer = styled.div`
@@ -210,4 +215,14 @@ const Input = styled.input`
 	padding: 20px;
 	margin-left: 15px;
 	margin-right: 15px;
+`;
+
+const Icon = styled(IconButton)`
+	display: flex;
+
+	@media (min-width: 425px) {
+		&&& {
+			display: ${(props) => (props.display ? "block" : "none")};
+		}
+	}
 `;

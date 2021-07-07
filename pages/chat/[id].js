@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import styled from "styled-components"
 import ChatScreen from "../../components/ChatScreen"
@@ -9,14 +10,31 @@ import  {getRecipientEmail, getRecipient } from "../../utils/getRecipientEmail"
 const Chats = ({chat, messages}) => {
     const [user] = useAuthState(auth);
     const recipient = getRecipient(chat.users, user);
+
+	const [displayChat, setDisplayChat] = useState(false);
+	const [displaySideBar, setDisplaySideBar] = useState(true);
+
+	const setDisplay = () =>{
+		setDisplayChat(!displayChat);
+		setDisplaySideBar(!displaySideBar);
+	}
+
     return (
 		<Container>
 			<HeadTab
-				title={`Chat with ${recipient?recipient.name : getRecipientEmail(chat.users, user)}`}
+				title={`Chat with ${
+					recipient
+						? recipient.name
+						: getRecipientEmail(chat.users, user)
+				}`}
 			/>
-			<Sidebar />
-			<ChatContainer>
-				<ChatScreen chat={chat} messages={messages} />
+			<Sidebar setDisplay={setDisplay} displaySideBar={displaySideBar} />
+			<ChatContainer display={displayChat}>
+				<ChatScreen
+					chat={chat}
+					messages={messages}
+					setDisplay={setDisplay}
+				/>
 			</ChatContainer>
 		</Container>
 	);
@@ -66,11 +84,16 @@ const Container = styled.div`
 const ChatContainer = styled.div`
 	flex: 1;
 	height: 100vh;
-	width: 100%;
-	overflow: scroll;
+	overflow-y: scroll;
 	::-webkit-scroll {
 		display: none;
 	}
 	-ms-overflow-style: none;
 	scrollbar-width: none;
+
+	@media (max-width: 425px) {
+		display: ${(props) => (props.display ? "block" : "none")};
+		flex-grow: 1;
+		max-width: 100%;
+	}
 `;

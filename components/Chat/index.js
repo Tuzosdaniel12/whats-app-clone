@@ -7,17 +7,15 @@ import { useRouter } from "next/router";
 import { getRecipient, getRecipientEmail } from "../../utils/getRecipientEmail";
 
 
-const Chat = ({ id, users }) => {
+const Chat = ({ id, users, setDisplay }) => {
     const router = useRouter();
     // get log in users
     const  [user] = useAuthState(auth);
 
-    //get the email of other user
-    const recipientEmail = getRecipientEmail(users, user);
-
-    const recipient = getRecipient(users, user);
+    const  { recipient, recipientEmail } = getRecipient(users, user);
 
     const enterChat = () =>{
+        setDisplay()
         router.push(`/chat/${id}`)
     }
 
@@ -25,13 +23,13 @@ const Chat = ({ id, users }) => {
 		<Container onClick={enterChat}>
 			{recipient ? (
 				<>
-					<UserAvatar src={recipient?.photoURL} />
-					<p>{recipient?.name}</p>
+					<UserAvatar src={recipient?.photoUrl} />
+					<p>{recipient?.name.toUpperCase()}</p>
 				</>
 			) : (
 				<>
 					<UserAvatar>{recipientEmail[0].toUpperCase()}</UserAvatar>
-					<p>{recipientEmail}</p>
+					<p>{recipientEmail.toUpperCase()}</p>
 				</>
 			)}
 		</Container>
