@@ -1,14 +1,10 @@
-import styles from '../styles/Home.module.css'
 import Head from '../components/Head.js'
-
+import Sidebar from '../components/Sidebar'
 export default function Home() {
   return (
-		<div className={styles.container}>
+		<div>
 			<Head/>
-			
-			<main className={styles.main}>
-				
-			</main>
+			<Sidebar/>
 		</div>
   );
 }
