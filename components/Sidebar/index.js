@@ -6,9 +6,23 @@ import ChatIcon from "@material-ui/icons/Chat"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 import SearchIcon from "@material-ui/icons/Search"
 
+import * as EmailValidator from "email-validator"
+
 
 
 const Sidebar = () => {
+
+    const createChat = () => {
+        const input = prompt("please enter an email adress for the use you wish to chat with")
+
+        if(!input) return null
+
+        if(EmailValidator.validate(input)){
+            //we need to chat into the db
+        }
+
+    }
+
 	return (
 		<Container>
 			<Header>
@@ -55,31 +69,31 @@ const Header = styled.div`
     padding: 15px;
     height: 80px;
     border-bottom: 1px solid whitesmoke;
-`
+`;
 
 const UserAvatar = styled(Avatar)`
     cursor: pointer;
     :hover {
         opacity: 0.8;
     }
-`
+`;
 
 const IconContainer = styled.div`
 
-`
+`;
 const Search = styled.div`
     display: flex;
     align-items: center;
     padding: 20px;
     border-radius: 2px;
-`
+`;
 
 const SearchInput = styled.input`
     outline-width: 0;
     border: none;
     flex: 1;
 
-`
+`;
 
 const SidebarButton = styled(Button)`
 	width: 100%;
