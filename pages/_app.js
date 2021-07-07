@@ -4,7 +4,7 @@ import { auth, db } from "../firebase"
 import { useEffect } from 'react';
 import firebase from "firebase"
 import '../styles/globals.css'
-import Login from "./Login"
+import Login from "./login.js"
 
 function MyApp({ Component, pageProps }) {
 
