@@ -2,9 +2,9 @@ import styled from "styled-components"
 import { auth, db } from "../../firebase";
 import { Avatar } from "@material-ui/core"
 import { useAuthState } from "react-firebase-hooks/auth";
-import getRecipientEmail from "../../utils/getRecipientEmail"
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
+import { getRecipient, getRecipientEmail } from "../../utils/getRecipientEmail";
 
 
 const Chat = ({ id, users }) => {
@@ -15,12 +15,7 @@ const Chat = ({ id, users }) => {
     //get the email of other user
     const recipientEmail = getRecipientEmail(users, user);
 
-    //get the 
-    const [recipientSnapshot] = useCollection(
-		db.collection("users").where("email", "==", recipientEmail)
-	);
-
-    const recipient = recipientSnapshot?.docs?.[0]?.data();
+    const recipient = getRecipient(users, user);
 
     const enterChat = () =>{
         router.push(`/chat/${id}`)
@@ -29,12 +24,16 @@ const Chat = ({ id, users }) => {
     return (
 		<Container onClick={enterChat}>
 			{recipient ? (
-				<UserAvatar src={recipient?.photoURL} />
+				<>
+					<UserAvatar src={recipient?.photoURL} />
+					<p>{recipient?.name}</p>
+				</>
 			) : (
-				<UserAvatar>{recipientEmail[0].toUpperCase()}</UserAvatar>
+				<>
+					<UserAvatar>{recipientEmail[0].toUpperCase()}</UserAvatar>
+					<p>{recipientEmail}</p>
+				</>
 			)}
-
-			<p>{recipientEmail}</p>
 		</Container>
 	);
 }
