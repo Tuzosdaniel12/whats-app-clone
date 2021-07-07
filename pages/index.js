@@ -1,14 +1,19 @@
 import Head from '../components/Head.js'
 import Sidebar from '../components/Sidebar'
-import Welcome from '../components/Welcome/index.js';
 import styled from "styled-components";
+import { useState } from 'react';
 
 export default function Home() {
+
+	const [displaySideBar, setDisplaySideBar] = useState(true);
+
   return (
 		<Container>
-			<Head title="WhatAppClone"/>
-			<Sidebar/>
-			<Welcome/>
+			<Head title="WhatAppClone" />
+			<Sidebar
+				setDisplaySideBar={setDisplaySideBar}
+				displaySideBar={displaySideBar}
+			/>
 		</Container>
   );
 }

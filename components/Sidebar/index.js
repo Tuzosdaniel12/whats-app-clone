@@ -14,7 +14,7 @@ import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 
-const Sidebar = ({ setDisplay, displaySideBar }) => {
+const Sidebar = ({ setDisplay, displaySideBar, setDisplaySideBar }) => {
 	const [user] = useAuthState(auth);
 	const userChatRef = db
 		.collection("chats")
@@ -82,6 +82,7 @@ const Sidebar = ({ setDisplay, displaySideBar }) => {
 					id={chat.id}
 					users={chat.data().users}
 					setDisplay={setDisplay}
+					setDisplaySideBar={setDisplaySideBar}
 				/>
 			))}
 		</Container>

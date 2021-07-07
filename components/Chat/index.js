@@ -7,19 +7,19 @@ import { useRouter } from "next/router";
 import { getRecipient, getRecipientEmail } from "../../utils/getRecipientEmail";
 
 
-const Chat = ({ id, users, setDisplay }) => {
-    const router = useRouter();
-    // get log in users
-    const  [user] = useAuthState(auth);
+const Chat = ({ id, users, setDisplay, setDisplaySideBar }) => {
+	const router = useRouter();
+	// get log in users
+	const [user] = useAuthState(auth);
 
-    const  { recipient, recipientEmail } = getRecipient(users, user);
+	const { recipient, recipientEmail } = getRecipient(users, user);
 
-    const enterChat = () =>{
-        setDisplay()
-        router.push(`/chat/${id}`)
-    }
+	const enterChat = () => {
+        setDisplaySideBar? setDisplaySideBar(): setDisplay()
+		router.push(`/chat/${id}`);
+	};
 
-    return (
+	return (
 		<Container onClick={enterChat}>
 			{recipient ? (
 				<>
@@ -34,7 +34,7 @@ const Chat = ({ id, users, setDisplay }) => {
 			)}
 		</Container>
 	);
-}
+};
 
 export default Chat
 

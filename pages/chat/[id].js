@@ -11,8 +11,8 @@ const Chats = ({chat, messages}) => {
     const [user] = useAuthState(auth);
     const recipient = getRecipient(chat.users, user);
 
-	const [displayChat, setDisplayChat] = useState(false);
-	const [displaySideBar, setDisplaySideBar] = useState(true);
+	const [displayChat, setDisplayChat] = useState(true);
+	const [displaySideBar, setDisplaySideBar] = useState(false);
 
 	const setDisplay = () =>{
 		setDisplayChat(!displayChat);
