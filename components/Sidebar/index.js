@@ -1,5 +1,7 @@
 import { Avatar, Button, IconButton } from "@material-ui/core";
 
+import Chat from "../Chat";
+
 import styled from "styled-components";
 
 import ChatIcon from "@material-ui/icons/Chat"
@@ -15,7 +17,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 const Sidebar = () => {
 
     const [user] = useAuthState(auth);
-    const userChatRef = db.collection('chats').where("user", 'array-contains', user.email);
+    const userChatRef = db.collection('chats').where("users", 'array-contains', user.email);
     const [chatSnapshot] = useCollection(userChatRef)
 
 
@@ -43,7 +45,7 @@ const Sidebar = () => {
 	return (
 		<Container>
 			<Header>
-				<UserAvatar onClick={()=> auth.signOut()}/>
+				<UserAvatar onClick={()=> auth.signOut()} src={user?.photoURL}/>
 
 				<IconContainer>
 					<IconButton>
@@ -66,6 +68,12 @@ const Sidebar = () => {
             </SidebarButton>
 
             {/*List of Chats*/}
+
+            { 
+                chatSnapshot?.docs.map(chat=> (
+                    <Chat key={chat.id} id={chat.id} users={chat.data().users} />
+                ))
+            }
 		</Container>
 	);
 };
