@@ -1,10 +1,18 @@
 import Head from '../components/Head.js'
 import Sidebar from '../components/Sidebar'
+import Welcome from '../components/Welcome/index.js';
+import styled from "styled-components";
+
 export default function Home() {
   return (
-		<div>
+		<Container>
 			<Head title="WhatAppClone"/>
 			<Sidebar/>
-		</div>
+			<Welcome/>
+		</Container>
   );
 }
+
+const Container = styled.div`
+	display: flex;
+`;
