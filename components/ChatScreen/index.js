@@ -183,13 +183,13 @@ const HeaderInfo = styled.div`
 `
 
 const HeaderIcons = styled.div`
-display: flex;
+	display: flex;
 `
 
 const MessageContainer = styled.div`
 	padding: 30px;
-    width: 100%;
-	background-color: #e5ded8;
+	width: 100%;
+	background-image: url("https://cdn.wallpapersafari.com/1/80/8DYndB.png");
 	min-height: 90vh;
 `;
 
@@ -218,11 +218,17 @@ const Input = styled.input`
 `;
 
 const Icon = styled(IconButton)`
-	display: flex;
-
+	&&& {
+		padding: 12px;
+	}
 	@media (min-width: 425px) {
 		&&& {
 			display: ${(props) => (props.display ? "block" : "none")};
+		}
+	}
+	@media (max-width: 425px) {
+		&&& {
+			padding: 0;
 		}
 	}
 `;

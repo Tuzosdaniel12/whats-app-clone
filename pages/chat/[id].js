@@ -5,11 +5,11 @@ import ChatScreen from "../../components/ChatScreen"
 import HeadTab from "../../components/Head"
 import Sidebar from "../../components/Sidebar"
 import { auth, db } from "../../firebase"
-import  {getRecipientEmail, getRecipient } from "../../utils/getRecipientEmail"
+import  {getRecipient } from "../../utils/getRecipientEmail"
 
 const Chats = ({chat, messages}) => {
     const [user] = useAuthState(auth);
-    const recipient = getRecipient(chat.users, user);
+    const { recipient, recipientEmail } = getRecipient(chat.users, user);
 
 	const [displayChat, setDisplayChat] = useState(true);
 	const [displaySideBar, setDisplaySideBar] = useState(false);
@@ -23,9 +23,7 @@ const Chats = ({chat, messages}) => {
 		<Container>
 			<HeadTab
 				title={`Chat with ${
-					recipient
-						? recipient.name
-						: getRecipientEmail(chat.users, user)
+					recipient ? recipient.name : recipientEmail
 				}`}
 			/>
 			<Sidebar setDisplay={setDisplay} displaySideBar={displaySideBar} />
@@ -78,7 +76,7 @@ export async function getServerSideProps(context) {
 
 const Container = styled.div`
     display: flex;
-
+	height: 100vh;
 `
 
 const ChatContainer = styled.div`
