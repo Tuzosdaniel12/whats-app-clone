@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import Head from "next/head";
 
 const HeadTab = ({title}) => {
@@ -9,6 +10,9 @@ const HeadTab = ({title}) => {
 				rel="icon"
 				href="https://tse4.mm.bing.net/th?id=OIP.EO6FUVVaA11OaPhF6pvX-QHaHa&pid=Api&P=0&w=300&h=300"
 			/>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com"/>
+			<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet"/>
 		</Head>
 	);
 };

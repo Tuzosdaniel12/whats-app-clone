@@ -1,10 +1,10 @@
 import styled from "styled-components"
-import { auth, db } from "../../firebase";
+import { auth } from "../../firebase";
 import { Avatar } from "@material-ui/core"
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
-import { getRecipient, getRecipientEmail } from "../../utils/getRecipientEmail";
+import { getRecipient } from "../../utils/getRecipientEmail";
+import { useRef, useState } from "react";
 
 
 const Chat = ({ id, users, setDisplay, setDisplaySideBar }) => {
@@ -14,7 +14,8 @@ const Chat = ({ id, users, setDisplay, setDisplaySideBar }) => {
 
 	const { recipient, recipientEmail } = getRecipient(users, user);
 
-	const enterChat = () => {
+	const enterChat = (e) => {
+		e.preventDefault();
         setDisplaySideBar? setDisplaySideBar(): setDisplay()
 		router.push(`/chat/${id}`);
 	};
@@ -39,16 +40,19 @@ const Chat = ({ id, users, setDisplay, setDisplaySideBar }) => {
 export default Chat
 
 const Container = styled.div`
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 15px;
-    word-break: break-word;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding: 15px;
+	word-break: break-word;
 
-    :hover {
-        background-color: #e9eaeb;
-    }
-`
+	:hover {
+		background-color: #e9eaeb;
+	}
+	> p {
+		font-weight: bold;
+	}
+`;
 
 const UserAvatar = styled(Avatar)`
     margin: 5px;

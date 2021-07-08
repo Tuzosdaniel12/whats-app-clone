@@ -1,18 +1,25 @@
 import { useRouter } from "next/router";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { auth, db } from "../../firebase";
-import { useEffect, useRef, useState } from "react";
+
+import { useRef, useState } from "react";
+
 import { Avatar, IconButton } from "@material-ui/core";
+import CallIcon from "@material-ui/icons/Call";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import { getRecipient, getRecipientEmail } from "../../utils/getRecipientEmail.js";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MicIcon from "@material-ui/icons/Mic";
+
 import Messages from "../../components/Messages"
 import styled from "styled-components";
+import { getRecipient } from "../../utils/getRecipientEmail.js";
+
 import firebase from "firebase"
+import { auth, db } from "../../firebase";
+
 import TimeAgo from "timeago-react";
 
 
@@ -116,7 +123,7 @@ const ChatScreen = ({ chat, messages, setDisplay }) => {
 					</Icon>
 
 					<Icon display={true}>
-						<AttachFileIcon />
+						<CallIcon />
 					</Icon>
 
 					<Icon display={true}>
@@ -132,9 +139,11 @@ const ChatScreen = ({ chat, messages, setDisplay }) => {
 			</MessageContainer>
 
 			<InputContainer>
-				<InsertEmoticonIcon />
+				<InsertEmoticonIcon color="action" />
+				<AttachFileIcon color="action" />
 				<Input
 					value={input}
+					placeholder="Type a message..."
 					onChange={(e) => setInput(e.target.value)}
 				/>
 				<button
@@ -144,7 +153,7 @@ const ChatScreen = ({ chat, messages, setDisplay }) => {
 					onClick={sendMessage}>
 					Send Message
 				</button>
-				<MicIcon />
+				<MicIcon color="action" />
 			</InputContainer>
 		</Container>
 	);
@@ -159,7 +168,7 @@ const Container = styled.div`
 `;
 const Header = styled.div`
     position: sticky;
-    background-color: white;
+    background-color: whitesmoke;
     z-index: 100;
     top: 0;
     display: flex;
@@ -170,17 +179,27 @@ const Header = styled.div`
 `
 
 const HeaderInfo = styled.div`
-    margin-left: 15px;
-    flex: 1;
+	margin-left: 15px;
+	flex: 1;
 
-    >h3 {
-        margin-bottom: 3px;
-    }
-    >p {
-        font-size: 14px;
-        color: gray;
-    }
-`
+	> h3 {
+		margin-bottom: 3px;
+	}
+	> p {
+		font-size: 14px;
+		margin: 0;
+		color: gray;
+	}
+
+	@media (max-width: 425px) {
+		> h3 {
+			display: block;
+		}
+		> p {
+			font-size: 10px;
+		}
+	}
+`;
 
 const HeaderIcons = styled.div`
 	display: flex;
@@ -188,13 +207,14 @@ const HeaderIcons = styled.div`
 
 const MessageContainer = styled.div`
 	padding: 30px;
+	padding-bottom: 5px;
 	width: 100%;
 	background-image: url("https://cdn.wallpapersafari.com/1/80/8DYndB.png");
 	min-height: 90vh;
 `;
 
 const EndOfMessage = styled.div`
-    margin-bottom: 50px;
+    margin-bottom: 10px;
 `
 
 const InputContainer = styled.form`
@@ -203,15 +223,15 @@ const InputContainer = styled.form`
     padding:10px;
     position: sticky;
     bottom: 0;
-    background-color: white;
+    background-color: whitesmoke;
     z-index: 100;
 `
 const Input = styled.input`
 	flex: 1;
 	outline: 0;
 	border: none;
-	border-radius: 10px;
-	background-color: whitesmoke;
+	border-radius: 50px;
+	background-color: white;
 	padding: 20px;
 	margin-left: 15px;
 	margin-right: 15px;
@@ -219,7 +239,7 @@ const Input = styled.input`
 
 const Icon = styled(IconButton)`
 	&&& {
-		padding: 12px;
+		padding: 10px;
 	}
 	@media (min-width: 425px) {
 		&&& {

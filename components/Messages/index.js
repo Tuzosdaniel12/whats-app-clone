@@ -33,7 +33,7 @@ const Container = styled.div`
 `
 const MessageElement = styled.p`
 	width: fit-content;
-	padding: 15px;
+	padding: 10px;
 	border-radius: 8px;
 	margin: 5px;
 	min-width: 60px;
@@ -44,8 +44,7 @@ const MessageElement = styled.p`
 	word-break: break-word;
 
 	> a {
-		color: blue;
-		font-weight: bold;
+		color: #00cbff;
 		text-decoration: underline;
 	}
 `;
@@ -56,7 +55,7 @@ const Sender = styled(MessageElement)`
 `;
 
 const Reciever = styled(MessageElement)`
-	background-color: whitesmoke;
+	background-color: white;
 `;
 
 const Timestamp = styled.span`

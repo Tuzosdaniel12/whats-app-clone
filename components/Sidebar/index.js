@@ -93,7 +93,7 @@ export default Sidebar;
 
 const Container = styled.div`
 	flex: 0.45;
-	border-right: 1px solid whitesmoke;
+	border-right: 1px solid #dbd9d9;
 	height: 100vh;
 	min-width: 200px;
 	max-width: 350px;
@@ -112,16 +112,16 @@ const Container = styled.div`
 	}
 `;
 const Header = styled.div`
-    display: flex;
-    position: sticky;
-    top: 0;
-    background-color: white;
-    z-index: 1;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    height: 80px;
-    border-bottom: 1px solid whitesmoke;
+	display: flex;
+	position: sticky;
+	top: 0;
+	background-color: whitesmoke;
+	z-index: 1;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px;
+	height: 80px;
+	border-bottom: 1px solid whitesmoke;
 `;
 
 const UserAvatar = styled(Avatar)`
